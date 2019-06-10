@@ -5,9 +5,21 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\sNode</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <objects name="objects">
+    <object>objects\oNode</object>
+    <object>objects\oGame</object>
+  </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
+  <constants number="1">
+    <constant name="GRID_SIZE">32</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
