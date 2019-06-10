@@ -65,6 +65,30 @@ for(xx = 0; xx &lt; mapWidth; xx++)
         {
             ds_list_add(node.neighbors, map[xx, yy + 1])
         }
+        
+        //top left
+        if(xx &gt; 0 &amp;&amp; yy &gt; 0)
+        {
+            ds_list_add(node.neighbors, map[xx - 1, yy - 1])
+        }
+        
+        //top right
+        if(xx &lt; mapWidth - 1 &amp;&amp; yy &gt; 0)
+        {
+            ds_list_add(node.neighbors, map[xx + 1, yy - 1])
+        }
+        
+        //bottom left
+        if(xx &gt; 0 &amp;&amp; yy &lt; mapHeight - 1)
+        {
+            ds_list_add(node.neighbors, map[xx - 1, yy + 1])
+        }
+        
+        //bottom left
+        if(xx &lt; mapWidth - 1 &amp;&amp; yy &lt; mapHeight - 1)
+        {
+            ds_list_add(node.neighbors, map[xx + 1, yy + 1])
+        }
     }
 }
 </string>

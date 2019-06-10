@@ -53,7 +53,8 @@ neighbors = ds_list_create();
             <string>draw_self()
 
 //Debug code
-
+draw_set_alpha(1)
+draw_set_colour(c_black)
 draw_text(x + 4, y + 4, string(ds_list_size(neighbors)))
 </string>
           </argument>
