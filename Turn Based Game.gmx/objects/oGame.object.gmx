@@ -95,6 +95,24 @@ for(xx = 0; xx &lt; mapWidth; xx++)
 //create the mouse
 
 instance_create(x, y, oCursor)
+
+//add players[REPLACE SOON]
+
+with(instance_create(5 * GRID_SIZE, 5 * GRID_SIZE, oHero))
+{
+    gridX = 5
+    gridY = 5
+    name = "Sandy"
+    map[gridX, gridY].occupant = id
+}
+
+with(instance_create(5 * GRID_SIZE, 8 * GRID_SIZE, oHero))
+{
+    gridX = 5
+    gridY = 8
+    name = "Danny"
+    map[gridX, gridY].occupant = id
+}
 </string>
           </argument>
         </arguments>

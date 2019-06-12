@@ -30,6 +30,8 @@ gridX = 0
 gridY = 0
 //the node we are currently on
 hoverNode = noone
+//the actor we are clicked on
+selectedActor = noone
 </string>
           </argument>
         </arguments>
@@ -68,6 +70,42 @@ else // else it is whatever node you are currently over
 {
     hoverNode = map[gridX, gridY]
 }
+
+//Select actor with left click
+
+if(mouse_check_button_pressed(mb_left)) //if they have clicked the left mouse
+{
+    if(hoverNode.occupant != noone)//and there is someone to select on the node
+    {
+        selectedActor = hoverNode.occupant
+    }
+    else
+    {
+        selectedActor = noone
+    }
+}
+
+//right click for movement[TBH IMPORVED]
+if(mouse_check_button_pressed(mb_right))
+{
+    if(selectedActor != noone &amp;&amp; hoverNode.occupant == noone &amp;&amp; hoverNode.passable)
+    {
+        //first clear the node
+        map[selectedActor.gridX, selectedActor.gridY].occupant = noone
+        //update selectedActors postion and information
+        selectedActor.gridX = gridX
+        selectedActor.gridY = gridY
+        selectedActor.x = hoverNode.x
+        selectedActor.y = hoverNode.y
+        
+        //update new nodes occupant status
+        hoverNode.occupant = selectedActor
+    }
+    else
+    {
+        selectedActor = noone
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -100,10 +138,27 @@ draw_set_colour(c_black)
 
 if(hoverNode != noone)
 {
-    tempText = string(gridX) + " / " + string(gridY)
+    tempText = string(gridX) + " / " + string(gridY) + " = "
+    if(hoverNode.occupant != noone)
+    {
+        tempText += hoverNode.occupant.name
+    }
+    else
+    {
+        tempText += "noone"
+    }
     draw_rectangle(0,0, string_width(tempText), string_height(tempText), false)
     draw_set_colour(c_white)
     draw_text(0,0, tempText)
+}
+
+if(selectedActor != noone)
+{
+    tempText = selectedActor.name
+    draw_set_colour(c_black)
+    draw_rectangle(0, room_height, string_width(tempText), room_height - string_height(tempText), false)
+    draw_set_colour(c_white)
+    draw_text(0, room_height - string_height(tempText), tempText)
 }
 </string>
           </argument>
