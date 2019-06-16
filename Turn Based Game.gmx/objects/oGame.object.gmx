@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>globalvar map; //our 2d array for keeping track of all of the nodes
+            <string>state = "intialising"
+
+globalvar map; //our 2d array for keeping track of all of the nodes
 
 mapWidth = room_width/GRID_SIZE;
 mapHeight = room_height/GRID_SIZE;
@@ -37,6 +39,8 @@ for(xx = 0; xx &lt; mapWidth; xx++) //fill the screen with nodes, saving them to
     for(yy = 0; yy &lt; mapHeight; yy++)
     {
         map[xx,yy] = instance_create(xx * GRID_SIZE, yy * GRID_SIZE, oNode)
+        map[xx, yy].gridX = xx
+        map[xx, yy].gridY = yy
     }
 }
 //populate the neighbors list
@@ -98,20 +102,72 @@ instance_create(x, y, oCursor)
 
 //add players[REPLACE SOON]
 
-with(instance_create(5 * GRID_SIZE, 5 * GRID_SIZE, oHero))
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch(state)
 {
-    gridX = 5
-    gridY = 5
-    name = "Sandy"
-    map[gridX, gridY].occupant = id
-}
-
-with(instance_create(5 * GRID_SIZE, 8 * GRID_SIZE, oHero))
+    case "intialising":
+with(oNode)
 {
-    gridX = 5
-    gridY = 8
-    name = "Danny"
-    map[gridX, gridY].occupant = id
+//code for checking what type of node to build
+    if(instance_position(x + 16, y + 16, oTerrain))
+    {
+        tempTerrain = instance_position(x + 16, y + 16, oTerrain) //get what is currently at this postion
+        
+            switch(tempTerrain.type)
+            {
+            //depending on what type of node it is take on its qualities.
+                case "wall": 
+                    type = "wall"
+                    sprite_index = sWall
+                    passable = false
+                    
+                    break
+                    
+                case "rubble":
+                    type = "rubble"
+                    sprite_index = sRubble
+                    cost = 2
+                    break
+                    
+                    
+            }
+            
+            with(tempTerrain) //then destroy the placeholder 
+            {
+                instance_destroy()
+            }
+            
+        }
+          if(instance_position(x + 16, y + 16, oActor))
+            {
+                occupant = instance_position(x + 16, y + 16, oActor)
+                occupant.gridX = gridX
+                occupant.gridY = gridY
+            }
+    }
+    state = "ready"
+    break
 }
 </string>
           </argument>
