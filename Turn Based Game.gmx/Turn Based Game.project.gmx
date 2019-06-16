@@ -15,6 +15,11 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\Wipe_Nodes.gml</script>
+    <script>scripts\Colour_Move_Nodes.gml</script>
+    <script>scripts\Movement_Range.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\oNode</object>
     <object>objects\oGame</object>

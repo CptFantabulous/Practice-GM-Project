@@ -33,6 +33,10 @@ gridX = 0
 gridY = 0
 
 name = "ERROR"
+
+//Char stats
+move = 5
+actions = 2
 </string>
           </argument>
         </arguments>

@@ -25,7 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>name = "Sandy"
+            <string>event_inherited()
+//Char stats
+name = "Sandy"
+
 </string>
           </argument>
         </arguments>

@@ -78,17 +78,21 @@ if(mouse_check_button_pressed(mb_left)) //if they have clicked the left mouse
     if(hoverNode.occupant != noone)//and there is someone to select on the node
     {
         selectedActor = hoverNode.occupant
+        selectedActor.actions = 2
+        Movement_Range(hoverNode, selectedActor.move,selectedActor.actions)
+        
     }
     else
     {
         selectedActor = noone
+        Wipe_Nodes()
     }
 }
 
 //right click for movement[TBH IMPORVED]
 if(mouse_check_button_pressed(mb_right))
 {
-    if(selectedActor != noone &amp;&amp; hoverNode.occupant == noone &amp;&amp; hoverNode.passable)
+    if(selectedActor != noone &amp;&amp; hoverNode.moveNode)
     {
         //first clear the node
         map[selectedActor.gridX, selectedActor.gridY].occupant = noone
@@ -100,10 +104,31 @@ if(mouse_check_button_pressed(mb_right))
         
         //update new nodes occupant status
         hoverNode.occupant = selectedActor
+        
+        //if selected actor performed double move, deslect otherwise decrement actions and reselect
+        if(hoverNode.G &gt; selectedActor.move)
+        {
+            selectedActor = noone
+            Wipe_Nodes()
+        }
+        else
+        {
+            selectedActor.actions -= 1
+            if(selectedActor.actions &gt; 0)
+            {
+                Movement_Range(hoverNode, selectedActor.move, selectedActor.actions)
+            }
+            else
+            {
+                selectedActor = noone
+                Wipe_Nodes()
+            }
+        }
     }
     else
     {
         selectedActor = noone
+        Wipe_Nodes()
     }
 }
 </string>
