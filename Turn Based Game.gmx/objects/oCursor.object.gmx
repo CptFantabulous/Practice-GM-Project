@@ -77,10 +77,12 @@ if(mouse_check_button_pressed(mb_left)) //if they have clicked the left mouse
 {
     if(hoverNode.occupant != noone)//and there is someone to select on the node
     {
+        if(hoverNode.occupant != selectedActor)
+        {
         selectedActor = hoverNode.occupant
         selectedActor.actions = 2
         Movement_Range(hoverNode, selectedActor.move,selectedActor.actions)
-        
+        }
     }
     else
     {
@@ -94,37 +96,58 @@ if(mouse_check_button_pressed(mb_right))
 {
     if(selectedActor != noone &amp;&amp; hoverNode.moveNode)
     {
-        //first clear the node
+        //our current node
+        current = hoverNode
+        //create priority cue
+        path = ds_priority_create()
+        //add current node to cue
+        ds_priority_add(path, current, current.G)
+        
+        //step through each node, parent to parent, until done
+        while(current.parent != noone)
+        {
+            //add parent node to quie, priority equal to G score
+            ds_priority_add(path, current.parent,current.parent.G)
+            
+            //set current equal to currents parent, to start over
+            current = current.parent
+        }
+        do{
+            //delete lowest priorty node (closest to actors) store id in current
+            current = ds_priority_delete_min(path)
+            
+            //add currents node to sprite coordinates to selectedActors path
+            path_add_point(selectedActor.movementPath,current.x,current.y,100)
+        }until(ds_priority_empty(path))
+        
+        //clean up 
+        ds_priority_destroy(path)
+        
+        //first clear the node of selectedActor
         map[selectedActor.gridX, selectedActor.gridY].occupant = noone
-        //update selectedActors postion and information
+        
+        //update slectedActrs grid cords
         selectedActor.gridX = gridX
         selectedActor.gridY = gridY
-        selectedActor.x = hoverNode.x
-        selectedActor.y = hoverNode.y
         
-        //update new nodes occupant status
+        //update selectedActors future node
         hoverNode.occupant = selectedActor
         
-        //if selected actor performed double move, deslect otherwise decrement actions and reselect
+        //send selected actor on its way
+        selectedActor.state = "begin path"
+        
+        //reduce selected actors and wipe nodes
         if(hoverNode.G &gt; selectedActor.move)
         {
-            selectedActor = noone
-            Wipe_Nodes()
+            selectedActor.actions -= 2
         }
         else
         {
-            selectedActor.actions -= 1
-            if(selectedActor.actions &gt; 0)
-            {
-                Movement_Range(hoverNode, selectedActor.move, selectedActor.actions)
-            }
-            else
-            {
-                selectedActor = noone
-                Wipe_Nodes()
-            }
+            selectedActor.actions -=1
+            Wipe_Nodes()
         }
-    }
+        selectedActor = noone
+        }
     else
     {
         selectedActor = noone

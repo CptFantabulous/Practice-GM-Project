@@ -27,6 +27,11 @@
             <kind>1</kind>
             <string>//The parent of all of the heroes and NPCs in the game
 
+
+//state machine values
+
+state = "idle"
+
 //Base Values
 
 gridX = 0
@@ -37,6 +42,113 @@ name = "ERROR"
 //Char stats
 move = 5
 actions = 2
+
+//pathing variables
+
+movementPath = path_add()
+path_set_kind(movementPath, 2)
+path_set_closed(movementPath, false)
+
+moveSpeed = 8
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch(state)
+{
+    case "begin path":
+        //begin moving along path
+        path_start(movementPath, moveSpeed, 0, true)
+        state = "moving"
+        break
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="8">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//clear path
+path_clear_points(movementPath)
+
+state = "idle"
+
+if(actions &gt; 0)
+{
+    oCursor.selectedActor = id
+    Movement_Range(map[gridX, gridY], move, actions)
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//if cursor is hovering over a different node than actors
+if(oCursor.hoverNode != noone &amp;&amp; oCursor.hoverNode != map[gridX, gridY])
+{
+    current = oCursor.hoverNode
+    //step through all nodes parent to parent until we reach the actors node
+    while(current.parent != noone)
+    {
+        draw_line_width_colour(current.x + 16, current.y + 16,current.parent.x + 16, current.parent.y + 16,4,c_lime,c_lime)
+        //we then change our current to its parent and work our way through
+        current = current.parent
+    }
+}
+
+draw_self()
 </string>
           </argument>
         </arguments>
