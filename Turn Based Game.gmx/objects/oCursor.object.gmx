@@ -140,13 +140,16 @@ if(mouse_check_button_pressed(mb_right))
         if(hoverNode.G &gt; selectedActor.move)
         {
             selectedActor.actions -= 2
+            selectedActor = noone
         }
         else
         {
             selectedActor.actions -=1
             Wipe_Nodes()
+            selectedActor = noone
         }
         selectedActor = noone
+        Wipe_Nodes()
         }
     else
     {
