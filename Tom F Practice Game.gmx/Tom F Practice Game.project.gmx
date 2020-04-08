@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\S_wall</sprite>
     <sprite>sprites\S_player</sprite>
+    <sprite>sprites\s_enemy</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
